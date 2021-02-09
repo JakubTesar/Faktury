@@ -1,36 +1,43 @@
 package com.company;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
 
+        ArrayList<String[]> data = new ArrayList<>();
+
         try {
-            BufferedReader br = new BufferedReader(new FileReader("seznam-spolecnosti.dat"));
-            String SeznaSpolecnosti = br.readLine();
-            String content = "";
-            String[] SeznamSpolecnostipole ={""};
+            BufferedReader br = new BufferedReader(new FileReader("VF_2015.dat"));
 
-            while (SeznaSpolecnosti != null){
-                content += SeznaSpolecnosti;
-                SeznaSpolecnosti = br.readLine();
-            }
-            while (content != null){
-                SeznamSpolecnostipole = content.split(":");
-            }
-            for (int i = 0; i < SeznamSpolecnostipole.length; i++) {
-                System.out.println(SeznamSpolecnostipole[i]);
+            String nextline = br.readLine();
+            while (nextline != null) {
+                String[] row = nextline.split(",");
+                data.add(row);
+
+                nextline = br.readLine();
             }
 
-            br.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("VF_2015.csv"));
+
+            for (int i = 0; i < data.size(); i++) {
+                bw.write(data.get(i)[0]);
+                bw.newLine();
+            }
+
+        bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ///
     }
 }
